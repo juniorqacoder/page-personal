@@ -2,9 +2,16 @@ function Home() {
   return (
     <div>
       {" "}
-      <h1>CursoTab</h1>
-      <span>Plataforma para aprendizado na área de desenvolvimento!</span>
-      <span>Aqui você poderá encontrar a melhor rotina para iniciar na área de desenvolvimento ou continuar a partir de onde está</span>
+      <h1>JUNIOR DEV QA (Gilmario Junior)</h1>
+      <span>Tech Lead QA - Desenvolvedor Sênior</span>
+      <span>
+        Trilha para realizar a sua migração de carreira ou iniciar com
+        desenvolvimento||QA
+      </span>
+      <span>
+        Teremos trilhas separadas para desenvolvedores e QAS para consuloria
+        entre em contato com gilamrio@qaxsoltuions.com
+      </span>
     </div>
   );
 }
