@@ -1,11 +1,11 @@
 function Home() {
   return (
     <div>
-      {" "}
+      {' '}
       <h1>JUNIOR DEV QA (Gilmario Junior)</h1>
       <span>Tech Lead QA - Desenvolvedor Sênior</span>
       <span>
-      <br />
+        <br />
         Trilha para realizar a sua migração de carreira ou iniciar com
         desenvolvimento||QA
       </span>

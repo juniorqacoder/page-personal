@@ -1,8 +1,8 @@
 function logar(user, password) {
   if (password == 123) {
-    return "Logado com sucesso!";
+    return 'Logado com sucesso!';
   } else {
-    return "Usuário ou paciente incorreto";
+    return 'Usuário ou paciente incorreto';
   }
 }
 
