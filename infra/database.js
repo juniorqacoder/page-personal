@@ -36,9 +36,8 @@ function getSSLValues() {
       ca: process.env.POSTGRES_CA,
     };
   }
-  const result =
-    process.env.NODE_ENV === 'development' || 'test' ? false : true;
-  return result;
+
+  return process.env.NODE_ENV === "production" ? true : false;
 }
 
 export default {
