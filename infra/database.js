@@ -31,7 +31,9 @@ async function getNewClient() {
 
 function getSSLValues() {
   if (process.env.POSTGRES_CA) {
-    return process.env.POSTGRES_CA;
+    return {
+      ca: process.env.POSTGRES_CA,
+    };
   }
   const result =
     process.env.NODE_ENV === 'development' || 'test' ? false : true;
