@@ -11,7 +11,7 @@ test('Get to /api/v1/status should return 200 and health check', async () => {
   const parsedUpdateAt = new Date(responseBody.update_at).toISOString();
 
   expect(responseBody.update_at).toBe(parsedUpdateAt);
-  expect(responseBody.database.version).toBe('17.2');
+  expect(responseBody.database.version).toBe('20');
   expect(responseBody.database.max_connections).toBe(100);
   expect(responseBody.database.active_users).toBeGreaterThan(0);
 });
