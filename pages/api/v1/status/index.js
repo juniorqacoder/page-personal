@@ -9,6 +9,7 @@ async function status(request, response) {
     text: `select count(*)::int as total from pg_stat_activity where datname = $1;`,
     values: [dataName],
   });
+
   return response.status(200).json({
     update_at: updateAt,
     database: {
