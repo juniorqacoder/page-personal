@@ -39,10 +39,11 @@ function getSSLValues() {
   return process.env.NODE_ENV === 'production' ? true : false;
 }
 
-// const database =
-export default {
+const variavelEsquecida = 'Variavel de erro';
+
+const database = {
   query,
   getNewClient,
 };
 
-// export default database;
+export default database;
