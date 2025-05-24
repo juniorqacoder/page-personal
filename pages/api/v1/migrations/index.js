@@ -1,44 +1,25 @@
-import database from 'infra/database';
-import migrationRunner from 'node-pg-migrate';
-import { resolve } from 'node:path';
+import { createRouter } from 'next-connect';
+import controller from 'infra/controller.js';
+import migrator from 'models/migrator.js';
 
-export default async function migrations(request, response) {
-  const allowMethods = ['POST', 'GET'];
-  if (!allowMethods.includes(request.method)) {
-    response.status(405).json({
-      error: `Method "${request.method}" not allowed`,
-    });
+const router = createRouter();
+
+router.get(getHandler);
+router.post(postHandler);
+
+export default router.handler(controller.errorHandlers);
+
+async function getHandler(request, response) {
+  const pendingMigrations = await migrator.listPendingMigrations();
+  return response.status(200).json(pendingMigrations);
+}
+
+async function postHandler(request, response) {
+  const migratedMigrations = await migrator.runPendingMigrations();
+
+  if (migratedMigrations.length > 0) {
+    return response.status(201).json(migratedMigrations);
   }
 
-  let dbClient;
-
-  try {
-    dbClient = await database.getNewClient();
-    const defaultMigrationOptions = {
-      dbClient: dbClient,
-      dryRun: true,
-      dir: resolve('infra', 'migrations'),
-      direction: 'up',
-      verbose: true,
-      migrationsTable: 'pgmigrations',
-    };
-
-    if (request.method === 'GET') {
-      const migrations = await migrationRunner(defaultMigrationOptions);
-      response.status(200).json(migrations);
-    }
-
-    if (request.method === 'POST') {
-      const migrations = await migrationRunner({
-        ...defaultMigrationOptions,
-        dryRun: false,
-      });
-      response.status(201).json(migrations);
-    }
-  } catch (error) {
-    console.error(error);
-    throw error;
-  } finally {
-    dbClient.end();
-  }
+  return response.status(200).json(migratedMigrations);
 }
