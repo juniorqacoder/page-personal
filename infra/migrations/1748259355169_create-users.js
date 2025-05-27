@@ -19,12 +19,12 @@ exports.up = (pgm) => {
       type: 'varchar(72)',
       notNull: true,
     },
-    createAt: {
+    create_at: {
       type: 'timestamptz',
       notNUll: true,
       default: pgm.func('now()'),
     },
-    updateAt: {
+    update_at: {
       type: 'timestamptz',
       notNUll: true,
       default: pgm.func('now()'),
