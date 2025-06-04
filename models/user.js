@@ -39,7 +39,7 @@ async function create(userValues) {
         users (username, email, password) 
             values ($1, $2, $3)
             RETURNING * ; `,
-      values: [userValues.username, userValues.email, userValues.password],
+      values: [user.username, user.email, user.password],
     });
 
     return result.rows[0];

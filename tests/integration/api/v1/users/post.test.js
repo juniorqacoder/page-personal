@@ -1,4 +1,3 @@
-import database from 'infra/database';
 import orchestrator from 'tests/orchestrator.js';
 import { version as uuidVersion } from 'uuid';
 
@@ -88,7 +87,9 @@ describe('POST to /api/v1/users', () => {
       expect(responseBody.message).toBe(
         'O username informado já está sendo utilizado',
       );
-      expect(responseBody.action).toBe('Realizar cadastro com username diferente');
+      expect(responseBody.action).toBe(
+        'Realizar cadastro com username diferente',
+      );
     });
   });
 });
