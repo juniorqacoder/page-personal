@@ -33,7 +33,7 @@ describe('GET to /api/v1/users/[username]', () => {
         email: 'gilmario@qaxsolutions.com',
         create_at: response2Body.create_at,
         update_at: response2Body.update_at,
-        password: 'senha123',
+        password: response2Body.password,
       });
       expect(uuidVersion(response2Body.id)).toBe(4);
       expect(Date.parse(response2Body.create_at)).not.toBeNaN();
@@ -63,7 +63,7 @@ describe('GET to /api/v1/users/[username]', () => {
         email: 'mismatch@qaxsolutions.com',
         create_at: response2Body.create_at,
         update_at: response2Body.update_at,
-        password: 'senha123',
+        password: response2Body.password,
       });
       expect(uuidVersion(response2Body.id)).toBe(4);
       expect(Date.parse(response2Body.create_at)).not.toBeNaN();

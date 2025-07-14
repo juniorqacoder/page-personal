@@ -1,9 +1,13 @@
 import database from 'infra/database';
 import { NotFoundError, ValidationError } from 'infra/errors';
+import password from './password';
+('models/password');
 
 async function create(userValues) {
   await validateEmail(userValues.email);
   await validateUsername(userValues.username);
+  await hashPasswordObject(userValues);
+
   const newUser = await runInsertQuery(userValues);
   return newUser;
 
@@ -31,6 +35,11 @@ async function create(userValues) {
         action: 'Realizar cadastro com username diferente',
       });
     }
+  }
+
+  async function hashPasswordObject(inputValues) {
+    const hashPassword = await password.hash(inputValues.password);
+    userValues.password = hashPassword;
   }
 
   async function runInsertQuery(user) {

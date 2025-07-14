@@ -1,3 +1,5 @@
+import password from 'models/password';
+import user from 'models/user';
 import orchestrator from 'tests/orchestrator.js';
 import { version as uuidVersion } from 'uuid';
 
@@ -25,13 +27,21 @@ describe('POST to /api/v1/users', () => {
         id: responseBody.id,
         username: 'gilmario',
         email: 'gilmario@qaxsolutions.com',
-        password: 'senha123',
+        password: responseBody.password,
         create_at: responseBody.create_at,
         update_at: responseBody.update_at,
       });
       expect(uuidVersion(responseBody.id)).toBe(4);
       expect(Date.parse(responseBody.create_at)).not.toBeNaN();
       expect(Date.parse(responseBody.update_at)).not.toBeNaN();
+
+      const userInDatabase = await user.findOneByUsername('gilmario');
+      const correctPasswordMatch = await password.compare(
+        'senha123',
+        userInDatabase.password,
+      );
+
+      expect(correctPasswordMatch).toBe(true);
     });
     test('With duplicated requests', async () => {
       const response1 = await fetch('http://localhost:3000/api/v1/users', {
