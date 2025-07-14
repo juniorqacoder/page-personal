@@ -43,7 +43,7 @@ describe('POST to /api/v1/users', () => {
 
       expect(correctPasswordMatch).toBe(true);
     });
-    test('With duplicated requests', async () => {
+    test('With duplicated email', async () => {
       const response1 = await fetch('http://localhost:3000/api/v1/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -69,7 +69,9 @@ describe('POST to /api/v1/users', () => {
       expect(responseBody.message).toBe(
         'O email informado já está sendo utilizado',
       );
-      expect(responseBody.action).toBe('Realizar cadastro com email difente');
+      expect(responseBody.action).toBe(
+        'Utilizar um email diferente para esta ação!',
+      );
     });
     test('With duplicated username', async () => {
       const response1 = await fetch('http://localhost:3000/api/v1/users', {
@@ -98,7 +100,7 @@ describe('POST to /api/v1/users', () => {
         'O username informado já está sendo utilizado',
       );
       expect(responseBody.action).toBe(
-        'Realizar cadastro com username diferente',
+        'Utilizar um usuário diferente para esta ação',
       );
     });
   });
