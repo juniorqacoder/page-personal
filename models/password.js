@@ -10,7 +10,7 @@ async function getNumbersOfRounds() {
 }
 
 async function compare(providedPassword, storedPassword) {
-  return bcryptjs.compare(providedPassword, storedPassword);
+  return await bcryptjs.compare(providedPassword, storedPassword);
 }
 
 const passwords = {
