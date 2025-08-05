@@ -29,24 +29,11 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With duplicated username', async () => {
-      const user1 = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'user1',
-          email: 'user1@qaxsolutions.com',
-          password: 'senha123',
-        }),
+      await orchestrator.createUser({
+        username: 'user1',
       });
-
-      const user2 = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'user2',
-          email: 'user2@qaxsolutions.com',
-          password: 'senha123',
-        }),
+      await orchestrator.createUser({
+        username: 'user2',
       });
 
       const response = await fetch('http://localhost:3000/api/v1/users/user2', {
@@ -65,28 +52,14 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With duplicated email', async () => {
-      const user1 = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'duplicado1',
-          email: 'duplicado1@qaxsolutions.com',
-          password: 'senha123',
-        }),
+      await orchestrator.createUser({
+        email: 'duplicado1@qaxsolutions.com',
       });
-
-      const user2 = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'duplicado2',
-          email: 'duplicado2@qaxsolutions.com',
-          password: 'senha123',
-        }),
+      const user = await orchestrator.createUser({
+        email: 'duplicado2@qaxsolutions.com',
       });
-
       const response = await fetch(
-        'http://localhost:3000/api/v1/users/duplicado2',
+        `http://localhost:3000/api/v1/users/${user.username}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -104,18 +77,9 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With unique "username"', async () => {
-      const user = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'unique1',
-          email: 'unique@qaxsolutions.com',
-          password: 'senha123',
-        }),
-      });
-
+      const user = await orchestrator.createUser();
       const response = await fetch(
-        'http://localhost:3000/api/v1/users/unique1',
+        `http://localhost:3000/api/v1/users/${user.username}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -128,7 +92,7 @@ describe('PATCH to /api/v1/users/[username]', () => {
       expect(responseBody).toEqual({
         id: responseBody.id,
         username: 'unique2',
-        email: 'unique@qaxsolutions.com',
+        email: user.email,
         password: responseBody.password,
         create_at: responseBody.create_at,
         update_at: responseBody.update_at,
@@ -141,22 +105,14 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With unique "email"', async () => {
-      const user = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'uniqueEmail',
-          email: 'uniqueEmail@qaxsolutions.com',
-          password: 'senha123',
-        }),
-      });
+      const user = await orchestrator.createUser();
 
       const response = await fetch(
-        'http://localhost:3000/api/v1/users/uniqueEmail',
+        `http://localhost:3000/api/v1/users/${user.username}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: 'uniqueEmail2@qaxsolutions.com' }),
+          body: JSON.stringify({ email: 'uniqueEmail@qaxsolutions.com' }),
         },
       );
       const responseBody = await response.json();
@@ -164,8 +120,8 @@ describe('PATCH to /api/v1/users/[username]', () => {
       expect(response.status).toBe(201);
       expect(responseBody).toEqual({
         id: responseBody.id,
-        username: 'uniqueEmail',
-        email: 'uniqueEmail2@qaxsolutions.com',
+        username: user.username,
+        email: 'uniqueEmail@qaxsolutions.com',
         password: responseBody.password,
         create_at: responseBody.create_at,
         update_at: responseBody.update_at,
@@ -178,18 +134,10 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With new "password"', async () => {
-      const user = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'newPassword',
-          email: 'newPassword@qaxsolutions.com',
-          password: 'senha123',
-        }),
-      });
+      const user = await orchestrator.createUser();
 
       const response = await fetch(
-        'http://localhost:3000/api/v1/users/newPassword',
+        `http://localhost:3000/api/v1/users/${user.username}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -201,8 +149,8 @@ describe('PATCH to /api/v1/users/[username]', () => {
       expect(response.status).toBe(201);
       expect(responseBody).toEqual({
         id: responseBody.id,
-        username: 'newPassword',
-        email: 'newPassword@qaxsolutions.com',
+        username: user.username,
+        email: user.email,
         password: responseBody.password,
         create_at: responseBody.create_at,
         update_at: responseBody.update_at,
