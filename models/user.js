@@ -1,6 +1,6 @@
 import database from 'infra/database';
 import { NotFoundError, ValidationError } from 'infra/errors';
-import password from './password';
+import password from 'models/password';
 ('models/password');
 
 async function create(userValues) {

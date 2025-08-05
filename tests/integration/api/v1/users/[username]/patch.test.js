@@ -31,9 +31,11 @@ describe('PATCH to /api/v1/users/[username]', () => {
     test('With duplicated username', async () => {
       await orchestrator.createUser({
         username: 'user1',
+        password: 'teste',
       });
       await orchestrator.createUser({
         username: 'user2',
+        password: 'teste',
       });
 
       const response = await fetch('http://localhost:3000/api/v1/users/user2', {
