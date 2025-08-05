@@ -1,11 +1,13 @@
 import bcryptjs from 'bcryptjs';
 
 async function hash(password) {
+  if (typeof password !== 'string') {
+    throw new Error(
+      `Invalid password type: expected string, got ${typeof password}`,
+    );
+  }
   const rounds = await getNumbersOfRounds();
-  console.log('Rounds', password, rounds);
-  const hash = await bcryptjs.hash(password, rounds);
-  console.log('HashChangeEvent', hash);
-  return hash;
+  return await bcryptjs.hash(password, rounds);
 }
 
 async function getNumbersOfRounds() {
