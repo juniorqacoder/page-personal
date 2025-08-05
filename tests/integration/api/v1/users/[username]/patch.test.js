@@ -29,20 +29,18 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With duplicated username', async () => {
-      await orchestrator.createUser({
-        username: 'user1',
-        password: 'teste',
-      });
-      await orchestrator.createUser({
-        username: 'user2',
-        password: 'teste',
-      });
+      const user1 = await orchestrator.createUser({});
+      const user2 = await orchestrator.createUser({});
 
-      const response = await fetch('http://localhost:3000/api/v1/users/user2', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: 'user1' }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/v1/users/${user2.username}`,
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: user1.username }),
+        },
+      );
+
       const responseBody = await response.json();
       expect(response.status).toBe(400);
       expect(responseBody.message).toBe(
@@ -79,7 +77,11 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With unique "username"', async () => {
-      const user = await orchestrator.createUser({});
+      const user = await orchestrator.createUser({
+        username: 'TesteUnique',
+        email: 'testeunique@email.com',
+        password: 'TestePassword',
+      });
       const response = await fetch(
         `http://localhost:3000/api/v1/users/${user.username}`,
         {
