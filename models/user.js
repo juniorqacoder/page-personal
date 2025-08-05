@@ -107,7 +107,6 @@ async function validateEmail(email) {
 }
 
 async function hashPasswordObject(inputValues) {
-  console.log('inputValues', inputValues);
   const hashPassword = await password.hash(inputValues.password);
   inputValues.password = hashPassword;
 }
