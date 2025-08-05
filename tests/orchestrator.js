@@ -28,7 +28,7 @@ async function clearDatabase() {
 async function runPendingMigrations() {
   await migrator.runPendingMigrations();
 }
-async function createUser(userValues = {}) {
+async function createUser(userValues) {
   return await user.create({
     username:
       userValues.username || faker.internet.username().replace(/[_.-]/g, ''),
