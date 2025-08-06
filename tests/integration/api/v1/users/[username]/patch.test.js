@@ -77,13 +77,18 @@ describe('PATCH to /api/v1/users/[username]', () => {
     });
 
     test('With unique "username"', async () => {
-      const user = await orchestrator.createUser({
-        username: 'TesteUnique',
-        email: 'testeunique@email.com',
-        password: 'TestePassword',
+      const user = await fetch('http://localhost:3000/api/v1/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'TesteUnique',
+          email: 'testeunique@email.com',
+          password: 'TestePassword',
+        }),
       });
+
       const response = await fetch(
-        `http://localhost:3000/api/v1/users/${user.username}`,
+        `http://localhost:3000/api/v1/users/${'TesteUnique'}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -96,7 +101,7 @@ describe('PATCH to /api/v1/users/[username]', () => {
       expect(responseBody).toEqual({
         id: responseBody.id,
         username: 'unique2',
-        email: user.email,
+        email: 'testeunique@email.com',
         password: responseBody.password,
         create_at: responseBody.create_at,
         update_at: responseBody.update_at,
