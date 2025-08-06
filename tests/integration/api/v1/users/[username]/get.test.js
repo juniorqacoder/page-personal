@@ -10,14 +10,10 @@ beforeAll(async () => {
 describe('GET to /api/v1/users/[username]', () => {
   describe('Anonymous user', () => {
     test('With exact case match', async () => {
-      await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'gilmario',
-          email: 'gilmario@qaxsolutions.com',
-          password: 'senha123',
-        }),
+      await orchestrator.createUser({
+        username: 'gilmario',
+        email: 'gilmario@qaxsolutions.com',
+        password: 'senha123',
       });
 
       const response2 = await fetch(
@@ -33,21 +29,16 @@ describe('GET to /api/v1/users/[username]', () => {
         email: 'gilmario@qaxsolutions.com',
         create_at: response2Body.create_at,
         update_at: response2Body.update_at,
-        password: 'senha123',
+        password: response2Body.password,
       });
       expect(uuidVersion(response2Body.id)).toBe(4);
       expect(Date.parse(response2Body.create_at)).not.toBeNaN();
       expect(Date.parse(response2Body.update_at)).not.toBeNaN();
     });
     test('With case mismatch', async () => {
-      await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: 'MisMatch',
-          email: 'mismatch@qaxsolutions.com',
-          password: 'senha123',
-        }),
+      await orchestrator.createUser({
+        username: 'MisMatch',
+        email: 'mismatch@qaxsolutions.com',
       });
 
       const response2 = await fetch(
@@ -63,7 +54,7 @@ describe('GET to /api/v1/users/[username]', () => {
         email: 'mismatch@qaxsolutions.com',
         create_at: response2Body.create_at,
         update_at: response2Body.update_at,
-        password: 'senha123',
+        password: response2Body.password,
       });
       expect(uuidVersion(response2Body.id)).toBe(4);
       expect(Date.parse(response2Body.create_at)).not.toBeNaN();
