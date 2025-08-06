@@ -1,10 +1,7 @@
 import bcryptjs from 'bcryptjs';
 
 async function hash(password) {
-  console.log('Iniciar Hash');
   const rounds = await getNumbersOfRounds();
-  console.log('Pegou rounds:', rounds);
-  console.log('Tem password:', password);
   return await bcryptjs.hash(password, rounds);
 }
 
@@ -16,9 +13,9 @@ async function compare(providedPassword, storedPassword) {
   return await bcryptjs.compare(providedPassword, storedPassword);
 }
 
-const passwords = {
+const password = {
   hash,
   compare,
 };
 
-export default passwords;
+export default password;

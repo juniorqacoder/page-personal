@@ -19,8 +19,6 @@ async function create(userValues) {
             RETURNING * ; `,
       values: [user.username, user.email, user.password],
     });
-
-    console.log('Run Insert', result.rows[0]);
     return result.rows[0];
   }
 }
@@ -108,7 +106,6 @@ async function validateEmail(email) {
 }
 
 async function hashPasswordObject(inputValues) {
-  console.log('Iniciar hashPasswordObject');
   const hashPassword = await password.hash(inputValues.password);
   inputValues.password = hashPassword;
 }
