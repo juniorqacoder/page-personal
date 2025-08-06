@@ -20,6 +20,7 @@ async function create(userValues) {
       values: [user.username, user.email, user.password],
     });
 
+    console.log('Run Insert', result.rows[0]);
     return result.rows[0];
   }
 }

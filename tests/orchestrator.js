@@ -33,7 +33,7 @@ async function createUser(userValues) {
     username:
       userValues.username || faker.internet.username().replace(/[_.-]/g, ''),
     email: userValues.email || faker.internet.email(),
-    password: userValues.password || 'validPassword',
+    password: userValues.password || 'passwordForTest2025',
   });
 }
 
