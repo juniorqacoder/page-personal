@@ -7,8 +7,10 @@ async function create(userValues) {
   await validateEmail(userValues.email);
   await validateUsername(userValues.username);
   await hashPasswordObject(userValues);
+  console.log('passwordcomHash', userValues.password);
   injectDefaultFeatures(userValues);
-
+  console.log('usuario com features');
+  console.log('userValues', userValues);
   const newUser = await runInsertQuery(userValues);
   return newUser;
 
@@ -28,6 +30,7 @@ async function create(userValues) {
     return result.rows[0];
   }
   function injectDefaultFeatures(userValues) {
+    console.log('inject');
     userValues.features = ['read:activation_token'];
   }
 }
@@ -151,6 +154,8 @@ async function validateEmail(email) {
 }
 
 async function hashPasswordObject(inputValues) {
+  console.log('InputValues', inputValues);
+  console.log('Password:', inputValues.password);
   const hashPassword = await password.hash(inputValues.password);
   inputValues.password = hashPassword;
 }

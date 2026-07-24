@@ -8,6 +8,11 @@ export default function Home() {
         <br />
         Curso do Deschamps de desenvovlimento simnulando a criação do TabNews
       </span>
+      <div>
+      <span>
+        <a href="/register">Cadastrar usuário</a>
+      </span>
+      </div>
       <br />
     </div>
   );
