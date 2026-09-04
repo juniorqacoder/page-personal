@@ -1,9 +1,9 @@
+import { createRouter } from 'next-connect';
 import controller from 'infra/controller';
 import middlewares from 'infra/middlewares';
 import authorization from 'models/authorization';
 import session from 'models/session';
 import user from 'models/user';
-import { createRouter } from 'next-connect';
 
 const router = createRouter();
 

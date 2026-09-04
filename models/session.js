@@ -78,7 +78,7 @@ async function expireById(sessionId) {
     const results = await database.query({
       text: `
       UPDATE sessions
-      SET expires_at = expires_at - INTERVAL '1 month',
+      SET expires_at = NOW() - INTERVAL '1 minute',
           update_at = NOW()
       WHERE id = $1
       RETURNING *

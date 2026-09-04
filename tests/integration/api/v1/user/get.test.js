@@ -58,8 +58,6 @@ describe('Get to /api/v1/user', () => {
         ],
       });
 
-      //Tests if the session was renewed
-
       const renewedSessionObject = await session.findOneValidByToken(
         sessionObject.token,
       );
@@ -152,7 +150,10 @@ describe('Get to /api/v1/user', () => {
       const createdUser = await orchestrator.createUser({
         username: 'expiredUserSession',
       });
-      const sessionObject = await orchestrator.createSession(createdUser.id);
+      const activatedUser = await orchestrator.activateUserByUserId(
+        createdUser.id,
+      );
+      const sessionObject = await orchestrator.createSession(activatedUser.id);
 
       jest.useRealTimers();
 

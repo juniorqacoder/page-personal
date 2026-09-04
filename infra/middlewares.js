@@ -1,11 +1,15 @@
 import session from 'models/session';
-import { ForbiddenError } from './errors';
+import { ForbiddenError, UnauthorizedError } from './errors';
 import authorization from 'models/authorization';
 import user from 'models/user';
 
 async function injectAnonymousOrUser(request, response, next) {
   if (request.cookies?.session_id) {
-    await injectAuthenticatedUser(request);
+    try {
+      await injectAuthenticatedUser(request);
+    } catch (error) {
+      throw error;
+    }
   } else {
     await injectAnonymousUser(request);
   }
@@ -15,6 +19,7 @@ async function injectAnonymousOrUser(request, response, next) {
 function canRequest(feature) {
   return function canRequestMiddleware(request, response, next) {
     const userTryingRequest = request.context.user;
+    console.log('USER TRY', userTryingRequest);
     if (authorization.can(userTryingRequest, feature)) {
       return next();
     }
