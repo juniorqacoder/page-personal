@@ -1,15 +1,11 @@
 import session from 'models/session';
-import { ForbiddenError, UnauthorizedError } from './errors';
+import { ForbiddenError } from './errors';
 import authorization from 'models/authorization';
 import user from 'models/user';
 
 async function injectAnonymousOrUser(request, response, next) {
   if (request.cookies?.session_id) {
-    try {
-      await injectAuthenticatedUser(request);
-    } catch (error) {
-      throw error;
-    }
+    await injectAuthenticatedUser(request);
   } else {
     await injectAnonymousUser(request);
   }
