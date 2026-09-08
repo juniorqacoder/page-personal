@@ -8,7 +8,6 @@ async function create(userValues) {
   await validateUsername(userValues.username);
   await hashPasswordObject(userValues);
   injectDefaultFeatures(userValues);
-
   const newUser = await runInsertQuery(userValues);
   return newUser;
 

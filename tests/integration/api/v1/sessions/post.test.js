@@ -93,6 +93,12 @@ describe('POST to /api/v1/sessions', () => {
         create_at: responseBody.create_at,
         expires_at: responseBody.expires_at,
         id: responseBody.id,
+        features: [
+          'read:session',
+          'create:session',
+          'update:user',
+          'read:status',
+        ],
         token: responseBody.token,
         update_at: responseBody.update_at,
         user_id: responseBody.user_id,

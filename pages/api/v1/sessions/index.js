@@ -51,6 +51,5 @@ async function deleteHandler(request, response) {
     'read:session',
     expireSession,
   );
-
   return response.status(200).json(secureValues);
 }

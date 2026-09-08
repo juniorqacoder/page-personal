@@ -33,7 +33,7 @@ async function sendEmailToUser(user, activationToken) {
     html: `
             <p>Olá ${user.username},</p>
             <p>Por favor, ative sua conta usando o token abaixo ou clicando no link</p>
-            <p>https://${webserver.origin}/activate?token=${activationToken.id}</p>
+            <p>${webserver.origin}/register/activate/${activationToken.id}</p>
             <p>Token de ativação: ${activationToken.id}</p>
         `,
   });

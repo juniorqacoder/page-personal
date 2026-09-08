@@ -58,7 +58,7 @@ function filterOutput(user, feature, target) {
         id: target.id,
         token: target.token,
         user_id: target.user_id,
-        features: target.features,
+        features: user.features,
         create_at: target.create_at,
         update_at: target.update_at,
         expires_at: target.expires_at,

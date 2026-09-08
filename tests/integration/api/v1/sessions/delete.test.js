@@ -13,8 +13,10 @@ describe('DELETE to /api/v1/session', () => {
       const createdUser = await orchestrator.createUser({
         username: 'validUserSessionDelete',
       });
-      // await orchestrator.activateUserByUserId(createdUser.id);
-      const sessionObject = await orchestrator.createSession(createdUser.id);
+      const activatedUser = await orchestrator.activateUserByUserId(
+        createdUser.id,
+      );
+      const sessionObject = await orchestrator.createSession(activatedUser.id);
 
       const response = await fetch('http://localhost:3000/api/v1/sessions', {
         method: 'DELETE',
@@ -31,6 +33,12 @@ describe('DELETE to /api/v1/session', () => {
         id: sessionObject.id,
         token: sessionObject.token,
         user_id: sessionObject.user_id,
+        features: [
+          'read:session',
+          'create:session',
+          'update:user',
+          'read:status',
+        ],
         expires_at: responseBody.expires_at,
         create_at: responseBody.create_at,
         update_at: responseBody.update_at,
@@ -54,7 +62,6 @@ describe('DELETE to /api/v1/session', () => {
         path: '/',
       });
 
-      //Double check if the session is expired
       const doubleCheckSession = await fetch(
         'http://localhost:3000/api/v1/user',
         {
