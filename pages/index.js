@@ -1,4 +1,5 @@
 import DefaultLayout from 'infra/interfaces/DefaultLayout';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
         </span>
         <div>
           <span>
-            <a href="/register">Cadastrar usuário</a>
+            <Link href="/register">Cadastrar usuário</Link>
           </span>
         </div>
         <br />
